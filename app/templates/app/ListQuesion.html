@@ -1,0 +1,79 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block name-title %}
+    Danh sách câu hỏi
+{% endblock name-title %}
+
+{% block link-css %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="{% static 'css/tableStudent.css' %}">
+
+{% endblock link-css %}
+
+{% block main-content %}
+    <div class="home-dashboard d-block" style="height: 90vh;">
+        <div class="snippet-body">
+            <div class="container-fluid">
+                <div class="tableStudent ml-3 mr-3 table-scroll" id="table-scroll">
+                    <div class="table-responsive-sm text-nowrap table-wrap p-2" style="
+                    background-color: #fff;">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Thông tin</th>
+                                    <th scope="col">Câu hỏi</th>
+                                    <th scope="col">A</th>
+                                    <th scope="col">B</th>
+                                    <th scope="col">C</th>
+                                    <th scope="col">D</th>
+                                    <th scope="col">Đáp án đúng</th>
+                                    <th scope="col">Mức độ</th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center">
+                                            <i class="fa-solid fa-gear"></i>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ch in listCauhoi %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{ch.macauhoi}}</td>
+                                    <td>{{ch.noidung}}</td>
+                                    <td>{{ch.dapana}}</td>
+                                    <td>{{ch.dapanb}}</td>
+                                    <td>{{ch.dapanc}}</td>
+                                    <td>{{ch.dapand}}</td>
+                                    <td>{{ch.dapandung}}</td>
+                                    <td>{{ch.mucdo}}</td>
+                                    <td>
+                                        <div class="d-flex flex-wrap-nowrap justify-content-around">    
+                                            <a class="btn text-info p-0" href="javascript:void(0)" data-toggle="modal" data-target="#ModalEDIT">
+                                                <i class="fas fa-pencil-alt ml-2"></i>
+                                            </a>
+                                            <a class="btn text-danger p-0" href="" onclick="return confirm('Bạn có chắc muốn xóa?')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main-content %}
+
+{% block script-js %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" ></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{%static 'js/listTable.js'%}"></script>
+{% endblock script-js %}

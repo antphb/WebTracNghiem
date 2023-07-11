@@ -1,0 +1,77 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block name-title %}
+    Base
+{% endblock name-title %}
+
+{% block link-css %}
+    <link rel="stylesheet" href="{% static 'css/home.css'%}">
+{% endblock link-css %}
+{% block main-content %}
+    <div class="home-dashboard d-block" style="height: 90vh;">
+        <div class="row ml-3 mr-3 d-flex justify-content-around align-content-end" style="height: 40vh;">
+            <div class="col-md-5 col-sm-12 infoTe">
+                <div class="row" >
+                    <div class="col-md-3 d-flex align-items-center justify-content-center" style="background-color: green; height: 15vh !important; border-radius: 15px 0px 0px 15px;">
+                        <i class="fa-solid fa-list fa-2xl" style="color: #ffffff;"></i>
+                    </div>
+                    <div class="col-md-9 d-flex align-items-center justify-content-center" style="text-align: center;height: 15vh !important;">
+                        <p>
+                            <span style="font-size:30px;">{{soLuongBaiKt}}</span>
+                            <br>
+                            <a href="{%url 'listTest'%}">Danh sách bài thi</a>
+                        </p> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12 infoTe">
+                <div class="row" >
+                    <div class="col-md-3 d-flex align-items-center justify-content-center" style="background-color: green; height: 15vh !important; border-radius: 15px 0px 0px 15px;">
+                        <i class="fa-solid fa-list-ol fa-2xl" style="color: #ffffff;"></i>
+                    </div>
+                    <div class="col-md-9 d-flex align-items-center justify-content-center" style="text-align: center;">
+                        <p>
+                            <span style="font-size:30px;">{{soluongCauhoi}}</span>
+                            <br>
+                            <a href="{%url 'listQuesion'%}">Danh sách câu hỏi</a>
+                        </p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ml-3 mr-3 d-flex justify-content-around">
+            <div class="col-md-5 col-sm-12 infoTe">
+                <div class="row" >
+                    <div class="col-md-3 d-flex align-items-center justify-content-center" style="background-color: green; height: 15vh !important; border-radius: 15px 0px 0px 15px;">
+                        <i class="fa-solid fa-address-book fa-2xl" style="color: #ffffff;"></i>
+                    </div>
+                    <div class="col-md-9 d-flex align-items-center justify-content-center" style="text-align: center;">
+                        <p>
+                            <span style="font-size:30px;">{{soluongLopHoc}}</span>
+                            <br>
+                            <a href="{%url 'listGroupClass' %}">Danh sách lớp</a>
+                        </p> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12 infoTe">
+                <div class="row" >
+                    <div class="col-md-3 d-flex align-items-center justify-content-center" style="background-color: green; height: 15vh !important; border-radius: 15px 0px 0px 15px;">
+                        <i class="fa-solid fa-chart-simple fa-2xl" style="color: #ffffff;"></i>
+                    </div>
+                    <div class="col-md-9 d-flex align-items-center justify-content-center" style="text-align: center;">
+                        <p>
+                            <span style="font-size:30px;">10</span>
+                            <br>
+                            <a href="{%url 'listStudentQuesion' '10A1' '1010TB' %}">Thống kê</a>
+                        </p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock main-content %}
+
+{% block script-js %}
+
+{% endblock script-js %}

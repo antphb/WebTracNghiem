@@ -1,0 +1,580 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block name-title %}
+            Danh sách bài thi
+        {% endblock name-title %}
+    </title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{% static 'css/main.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/home.css'%}">
+
+    {% block link-css %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{% static 'css/tableStudent.css' %}">
+    {% endblock link-css %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+    
+</head>
+<body>
+    <div class="container-fluid p-0 ">
+        <div class="sidebar close_menu">
+            <div class="logo-details">
+                <!-- <i class="fa-solid fa-house"></i> -->
+                <a href="">
+                    <img src="{%static 'image/logoTronTruongKHTN.png'%}" alt="logo">
+                </a>
+                <span class="logo-name">Biểu diễn tri thức</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <div class="icon-link">
+                        <a href=" " style="height: 50px; font-size: 12px;">
+                            <i class="fa-solid fa-address-book" style="color: #ffffff;"></i>
+                            <span class="link_name">Danh sách lớp</span>
+                        </a>
+                        <i class="fa-solid fa-caret-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu" id="mySubMenuClass">
+                        <li>
+                            <a class="link_name" href="" >Danh sách lớp</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="" style="height: 50px; font-size: 12px;">
+                        <i class="fa-solid fa-list fa-2xl" style="color: #ffffff;"></i>
+                        <span class="link_name">Danh sách bài thi</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="">Danh sách bài thi</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="" style="height: 50px; font-size: 12px;">
+                        <i class="fa-solid fa-list-ol fa-2xl" style="color: #ffffff;"></i>
+                        <span class="link_name">Danh sách câu hỏi</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="">Danh sách câu hỏi</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <div class="icon-link">
+                        <a href=" " style="height: 50px; font-size: 12px;">
+                            <i class="fa-solid fa-chart-simple fa-2xl" style="color: #ffffff;"></i>
+                            <span class="link_name">Thống kê</span>
+                        </a>
+                        <i class="fa-solid fa-caret-down arrow"></i>
+                    </div>
+                    <ul class="sub-menu" id="mySubMenuClass">
+                        <li>
+                            <a class="link_name" href="" >Thống kê</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href=""  style="height: 50px; font-size: 12px;">
+                        <i class="fa-solid fa-key"></i>
+                        <span class="link_name">Đổi mật khẩu</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="">Đổi mật khẩu</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <form action="" method="post">
+                        <a href=""><i class="fa-sharp fa-solid fa-right-from-bracket"></i>
+                        <span class="link_name">Đăng Xuất</span></a>         
+                    </form>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="">Đăng Xuất</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="profile-details">
+                        <div class="profile-content">
+                            <a href="">
+                                <img src="{%static 'image/no-avatar.png'%}" alt="profile">
+                            </a>
+                        </div>
+                        <div class="name-job pr-3">
+                            <div class="profile_name">
+                                Nguyễn Đình Thanh
+                            </div>
+                            <div class="job">Teacher</div>
+                        </div>               
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <section class="home-section">
+            <div class="home-content">
+                <i class="fa-solid fa-bars"></i>
+                <span class="text">Trang chủ</span>
+            </div>
+            {% block main-content %}
+            <div class="home-dashboard d-block" style="height: 90vh;">
+                <div class="snippet-body">
+                    <div class="container-fluid">
+                        <div class="tableStudent ml-3 mr-3 table-scroll" id="table-scroll">
+                            <div class="add mb-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalADD">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Tạo đề thi
+                                </button>
+                            </div>
+                            <div class="table-responsive-sm text-nowrap table-wrap p-2" style="
+                            background-color: #fff;">
+                                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Mã đề</th>
+                                            <th scope="col">Tên đề</th>
+                                            <th scope="col">Môn</th>
+                                            <th scope="col">Lớp kiểm tra</th>
+                                            <th scope="col">Thời gian kiểm tra</th>
+                                            <th scope="col">Thời gian làm bài</th>
+                                            <th scope="col">Số câu</th>
+                                            <th scope="col">Số lần kiểm tra</th>
+                                            <th scope="col">Ghi chú</th>
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">
+                                                <div class="d-flex justify-content-center">
+                                                    <i class="fa-solid fa-gear"></i>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            {% for dethi in List_bai_kiem_tra %}
+                                                <tr>
+                                                    <td>{{dethi.makt}}</td>
+                                                    <td>{{dethi.tenkt}}</td>
+                                                    <td>{{dethi.monkt}}</td>
+                                                    <td>{{dethi.lopkt}}</td>
+                                                    <td>{{dethi.ngaylambai}} {{dethi.giolambai}}</td>
+                                                    <td>{{dethi.thoigian}}</td>
+                                                    <td>{{dethi.socauhoi}}</td>
+                                                    <td>{{dethi.solanthi}}</td>
+                                                    <td>{{dethi.ghichu}}</td>
+                                                    {% if dethi.trangthai %}
+                                                        <td>
+                                                            <a href="{%url 'changeTrangThai' dethi.makt 'True'%}" class="btn btn-block bg-success p-0"><strong>Mở</strong></a>
+                                                        </td>
+                                                    {% else %}
+                                                        <td>
+                                                            <a href="{%url 'changeTrangThai' dethi.makt 'False'%}" class="btn btn-block bg-danger p-0"><strong>Đóng</strong></a>
+                                                        </td>
+                                                    {% endif %}
+                                                    <td>
+                                                        <div class="d-flex justify-content-around">  
+                                                            <a class="btn text-info p-0" href="{%url 'listScoreStudent' dethi.makt 'all' %}">
+                                                                <i class="fa-solid fa-circle-info"></i>
+                                                            </a>
+
+                                                            <a class="btn text-danger p-0" href="{%url 'delete_test' dethi.makt %}" onclick="return confirm('Bạn có chắc muốn xóa?')">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>      
+                                            {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ModalADD" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tạo đề thi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="EditNoteForm">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control" >Mã đề</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" name="addMaDe" class="form-control" readonly id="addMaDe" value="{{maDeThi_add}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control" >Tên đề</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" name="addTenDe" class="form-control" id="addTenDe" value="test đề">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Môn kiểm tra</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="addMon" id="addMon" class="form-control">
+                                        {% for mon in dsmon%}
+                                            <option value={{mon.mamon}} selected>{{mon.tenmon}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control" >Lớp kiểm tra</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="addLopKT" id="addLopKT" class="form-control">
+                                        <option value="">--Chọn lớp--</option>
+                                        {% for lh in dslh %}
+                                            <option value="{{lh.malop}}">{{lh.tenlop}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Ngày làm</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="date" name="addNgayLamBai" class="form-control" id="addNgayLamBai">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Giờ làm</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="time" name="addGioLamBai" class="form-control" id="addGioLamBai">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Thời gian làm</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="addThoiGianLamBai" id="addThoiGianLamBai" class="form-control">
+                                        {% for tg in dsthoigian %}
+                                            <option value="{{tg}}">{{tg}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Số câu hỏi</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="number" name="addSoCauHoi" class="form-control" id="addSoCauHoi" min="0" value="30">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Nội dung kiểm tra</label>
+                                </div>
+                                <div class="col-md-7" style="max-height: 200px;
+                                overflow: auto !important;
+                                outline: none;">
+                                    <ul style="margin-left: 10px;" id="addChuong">
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Loại ra đề</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="addloairade" id="addloairade" class="form-control">
+                                        <option value="">
+                                            --Chọn loại ra đề--
+                                        </option>
+                                        <option value="NgauNhien" >
+                                            Ngẫu nhiên
+                                        </option>
+                                        <option value="TuChon">
+                                            Tự chọn
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control">Mức độ</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <div id="loairade_NgauNhien" class="d-none">
+                                        <select name="addMucDo" id="addMucDo" class="form-control">
+                                            <option value="" selected>
+                                                --Chọn mức độ--
+                                            </option>
+                                            <option value="De">
+                                                Dễ
+                                            </option>
+                                            <option value="TB">
+                                                Trung bình
+                                            </option>
+                                            <option value="Kho">
+                                                Khó
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div id="loairade_TuChon" class="d-none">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label class="form-control">Nhận biết (%):</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="number" name="addNhanBiet" id="addNhanBiet" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label class="form-control">Thông hiểu (%):</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="number" name="addThongHieu" id="addThongHieu" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label class="form-control">Vận dụng (%):</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="number" name="addVanDung" id="addVanDung" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <label class="form-control">Vận dụng cao (%):</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input type="number" name="addVanDungCao" id="addVanDungCao" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control" >Số lần được thi</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="number" name="addSoLanThi" class="form-control" id="addSoLanThi" min="1" value="1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-control" >Ghi chú</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" name="addGhiChu" class="form-control" id="addGhiChu">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12 mt-3">
+                                    <input type="button" name="addBaiKT" id="addBaiKT"  class="btn btn-primary w-100" value="Tạo đề" readonly>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% endblock main-content %}
+        </section>
+    </div>
+    <script src="{%static 'js/base.js'%}"></script>
+    {% block script-js %}
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" ></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{%static 'js/listTable.js'%}"></script>
+    <script>
+        var today = new Date().toISOString().substr(0, 10);
+        document.querySelector("#addNgayLamBai").value = today;
+        $(document).ready(function(){
+            var pct_Nhanbiet=0;
+            var pct_Thonghieu=0;
+            var pct_Vandung=0;
+            var pct_Vandungcao=0;
+            $('#addloairade').change(function(){
+                var loairade= $('#addloairade :selected').val();
+                if (loairade=="NgauNhien")
+                {
+                    $('#loairade_TuChon').addClass('d-none');
+                    $('#loairade_NgauNhien').removeClass('d-none');
+                }
+                else if (loairade=="TuChon"){
+                    $('#loairade_TuChon').removeClass('d-none');
+                    $('#loairade_NgauNhien').addClass('d-none');
+                }
+                else{
+                    $('#loairade_TuChon').addClass('d-none');
+                    $('#loairade_NgauNhien').addClass('d-none');
+                }
+            });
+            
+            $('#addMucDo').change(function(){
+                var mucdo= $('#addMucDo :selected').val();
+                console.log(mucdo);
+                if (mucdo == 'De')
+                {
+                    pct_Nhanbiet="60";
+                    pct_Thonghieu="30";
+                    pct_Vandung="10";
+                    pct_Vandungcao="0";
+                }
+                else if (mucdo == 'TB')
+                {
+                    pct_Nhanbiet="30";
+                    pct_Thonghieu="40";
+                    pct_Vandung="20";
+                    pct_Vandungcao="10";
+                }
+                else if (mucdo == 'Kho')
+                {
+                    pct_Nhanbiet="20";
+                    pct_Thonghieu="25";
+                    pct_Vandung="40";
+                    pct_Vandungcao="15";
+                };
+            });
+            
+            $('#addLopKT').change(function(){
+                var maLop= $('#addLopKT :selected').val();
+                var maMon= $('#addMon :selected').val(); 
+                $.ajax({
+                    url: `/api_chuong/${maMon}-${maLop}`,
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        var html="";
+                        $.each(data, function(key,value){
+                            machuong=key
+                            tenchuong=value.tenchuong
+                            baihoc=value.baihoc
+                            html+=`<li>
+                                        <input type="checkbox" name="${machuong}" id="${machuong}"> <label for="${machuong}">${tenchuong}</label>
+                                        <ul id="addBai">`;
+                            $.each(baihoc, function(key,value){
+                                mabai=key
+                                tenbai=value
+                                html+=`<li style="margin-left: 15px;">
+                                            <input type="checkbox" name="${mabai}" id="${mabai}"> <label for="${mabai}">${tenbai}</label>
+                                        </li>`;
+                            })
+                            html+=`</ul>
+                                    </li>`;
+                        })
+                        $('#addChuong').html(html);
+                        // console.log(html);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        console.error(textStatus + " " + errorThrown);
+                    }
+                })
+            })
+            // Nếu như click vào addChuong input:checked thì các input con của nó sẽ được check
+            $('#addChuong').on('click','input',function(){
+                if($(this).is(':checked')){
+                    $(this).parent().find('input').prop('checked',true);
+                }
+                else{
+                    $(this).parent().find('input').prop('checked',false);
+                }
+            })
+            $('#addBaiKT').click(
+                function(){
+                    made=$('#addMaDe').val(),
+                    tende=$('#addTenDe').val(),
+                    mamonKT=$('#addMon :selected').val()
+                    malopKT=$('#addLopKT :selected').val()
+                    ngaylam=$('#addNgayLamBai').val()
+                    giolam=$('#addGioLamBai').val()
+                    thoigianlam=$('#addThoiGianLamBai :selected').val()
+                    socauhoi=$('#addSoCauHoi').val()
+                    ghichu=$('#addGhiChu').val()
+                    solanthi=$('#addSoLanThi').val()
+                    var noidungKT=[]
+                    $('#addBai input:checked').each(function(){
+                        noidungKT.push($(this).attr('name'))
+                    })
+                    noidungKT=noidungKT.join('-')
+
+                    var loairade= $('#addloairade :selected').val();
+                    console.log(loairade)
+                    if (loairade == "TuChon")
+                    {
+                        pct_Nhanbiet= $('#addNhanBiet').val();
+                        pct_Thonghieu= $('#addThongHieu').val();
+                        pct_Vandung= $('#addVanDung').val();
+                        pct_Vandungcao= $('#addVanDungCao').val();
+                    }
+                    $.ajax({
+                        url: "{%url 'listTest'%}",
+                        type: 'POST',
+                        data:{
+                        'made':made,
+                        'tende':tende,
+                        'mamonKT':mamonKT,
+                        'malopKT':malopKT,
+                        'ngaylam':ngaylam,
+                        'giolam':giolam,
+                        'thoigianlam':thoigianlam,
+                        'socauhoi':socauhoi,
+                        'solanthi':solanthi,
+                        'ghichu':ghichu,
+                        'noidungKT':noidungKT,
+                        'pct_Nhanbiet':pct_Nhanbiet,
+                        'pct_Thonghieu':pct_Thonghieu,
+                        'pct_Vandung':pct_Vandung,
+                        'pct_Vandungcao':pct_Vandungcao,
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                        },
+                        success: function(data){
+                            alert("Tạo đề thành công");
+                            location.reload();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown){
+                            alert("thất bại");
+                            console.error(textStatus + " " + errorThrown);
+                        }
+                    })
+                }
+            )
+        });
+    </script>
+    {% endblock script-js %}
+</body>
+</html>
