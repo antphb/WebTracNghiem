@@ -1,273 +1,148 @@
+{% extends 'app/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% block name-title %}
-            Danh sách bài thi của học sinh
-        {% endblock name-title %}
-    </title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+{% block name-title %}
+    Danh sách bài thi của học sinh
+{% endblock name-title %}
 
-    <link rel="stylesheet" href="{% static 'css/main.css'%}">
+{% block link-css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="{% static 'css/tableStudent.css' %}">
+{% endblock link-css %}
 
-    <link rel="stylesheet" href="{% static 'css/home.css'%}">
-
-    {% block link-css %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="{% static 'css/tableStudent.css' %}">
-    {% endblock link-css %}
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div class="container-fluid p-0 ">
-        <div class="sidebar close_menu">
-            <div class="logo-details">
-                <!-- <i class="fa-solid fa-house"></i> -->
-                <a href="">
-                    <img src="{%static 'image/logoTronTruongKHTN.png'%}" alt="logo">
-                </a>
-                <span class="logo-name">Biểu diễn tri thức</span>
-            </div>
-            <ul class="nav-links">
-                <li>
-                    <div class="icon-link">
-                        <a href=" " style="height: 50px; font-size: 12px;">
-                            <i class="fa-solid fa-address-book" style="color: #ffffff;"></i>
-                            <span class="link_name">Danh sách lớp</span>
-                        </a>
-                        <i class="fa-solid fa-caret-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu" id="mySubMenuClass">
-                        <li>
-                            <a class="link_name" href="" >Danh sách lớp</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="" style="height: 50px; font-size: 12px;">
-                        <i class="fa-solid fa-list fa-2xl" style="color: #ffffff;"></i>
-                        <span class="link_name">Danh sách bài thi</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Danh sách bài thi</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="" style="height: 50px; font-size: 12px;">
-                        <i class="fa-solid fa-list-ol fa-2xl" style="color: #ffffff;"></i>
-                        <span class="link_name">Danh sách câu hỏi</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Danh sách câu hỏi</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="icon-link">
-                        <a href=" " style="height: 50px; font-size: 12px;">
-                            <i class="fa-solid fa-chart-simple fa-2xl" style="color: #ffffff;"></i>
-                            <span class="link_name">Thống kê</span>
-                        </a>
-                        <i class="fa-solid fa-caret-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu" id="mySubMenuClass">
-                        <li>
-                            <a class="link_name" href="" >Thống kê</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href=""  style="height: 50px; font-size: 12px;">
-                        <i class="fa-solid fa-key"></i>
-                        <span class="link_name">Đổi mật khẩu</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Đổi mật khẩu</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <form action="" method="post">
-                        <a href=""><i class="fa-sharp fa-solid fa-right-from-bracket"></i>
-                        <span class="link_name">Đăng Xuất</span></a>         
-                    </form>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Đăng Xuất</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="profile-details">
-                        <div class="profile-content">
-                            <a href="">
-                                <img src="{%static 'image/no-avatar.png'%}" alt="profile">
-                            </a>
-                        </div>
-                        <div class="name-job pr-3">
-                            <div class="profile_name">
-                                Nguyễn Đình Thanh
-                            </div>
-                            <div class="job">Teacher</div>
-                        </div>               
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <section class="home-section">
-            <div class="home-content">
-                <i class="fa-solid fa-bars"></i>
-                <span class="text">Trang chủ</span>
-            </div>
-            {% block main-content %}
-            <div class="home-dashboard d-block" style="height: 90vh;">
-                <div class="snippet-body">
-                    <div class="container-fluid">
-                        <div class="card-columns">
-                            {% for baikt,lambai in baikt_zip %}
-                                <div class="card">
-                                    <div class="card-body" style="font-size: 20px;">
-                                        <div class="">
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Mã đề: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.makt}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Tên đề: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.tenkt}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Môn: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.monkt}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Lớp: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.lopkt}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Ngày thi: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.ngaylambai}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Giờ thi: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.giolambai}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Thời gian làm bài:</p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.thoigian}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Số câu hỏi: </p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.socauhoi}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Số lần được thi:</p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.solanthi}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Trạng thái: </p>
-                                                </div>
-                                                {% if baikt.trangthai %}
-                                                    <div class="col-md-7">
-                                                        <p class="card-text m-0">Mở</p>
-                                                    </div>
-                                                {% else %}
-                                                    <div class="col-md-7">
-                                                        <p class="card-text m-0">Đóng</p>
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <p class="card-text m-0">Ghi chú:</p>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <p class="card-text m-0">{{baikt.ghichu}}</p>
-                                                </div>
-                                            </div>
-                                            {% if baikt.trangthai %}
-                                                {% if lambai %}
-                                                    <a href="{%url 'listScoreStudent' baikt.makt '1010TB' %}" class="btn btn-block btn-success">Xem kết quả</a>
-                                                {% else %}
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <a href="{%url 'listStudentLamBai' baikt.makt %}" class="btn btn-block btn-primary">Làm bài</a>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <a href="{%url 'listScoreStudent' baikt.makt '1010TB' %}" class="btn btn-block btn-success">Xem kết quả</a>
-                                                        </div>
-                                                    </div>
-                                                {% endif %} 
-                                            {% else %}
-                                                <a class="btn btn-block btn-warning">Đã khóa</a>
-                                            {% endif %}
-                                        </div>
+{% block main-content %}
+<div class="home-dashboard d-block" style="height: 90vh;">
+    <div class="snippet-body">
+        <div class="container-fluid">
+            <div class="card-columns">
+                {% for baikt,lambai in baikt_zip %}
+                    <div class="card">
+                        <div class="card-body" style="font-size: 20px;">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Mã đề: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.makt}}</p>
                                     </div>
                                 </div>
-                            
-                            {% endfor %}
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Tên đề: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.tenkt}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Môn: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.monkt}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Lớp: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.lopkt}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Ngày thi: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.ngaylambai}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Giờ thi: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.giolambai}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Thời gian làm bài:</p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.thoigian}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Số câu hỏi: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.socauhoi}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Số lần được thi:</p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.solanthi}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Trạng thái: </p>
+                                    </div>
+                                    {% if baikt.trangthai %}
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">Mở</p>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">Đóng</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="card-text m-0">Ghi chú:</p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p class="card-text m-0">{{baikt.ghichu}}</p>
+                                    </div>
+                                </div>
+                                {% if baikt.trangthai %}
+                                    {% if lambai %}
+                                        <a href="{%url 'listScoreStudent' baikt.makt '1010TB' %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                    {% else %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a href="{%url 'listStudentLamBai' baikt.makt %}" class="btn btn-block btn-primary">Làm bài</a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="{%url 'listScoreStudent' baikt.makt '1010TB' %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                            </div>
+                                        </div>
+                                    {% endif %} 
+                                {% else %}
+                                    <a class="btn btn-block btn-warning">Đã khóa</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                
+                {% endfor %}
             </div>
-            {% endblock main-content %}
-        </section>
+        </div>
     </div>
-    <script src="{%static 'js/base.js'%}"></script>
+</div>
+{% endblock main-content %}
     
-    {% block script-js %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    {% endblock script-js %}
-</body>
-</html>
+{% block script-js %}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock script-js %}
