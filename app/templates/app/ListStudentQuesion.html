@@ -116,14 +116,14 @@
                                 </div>
                                 {% if baikt.trangthai %}
                                     {% if lambai %}
-                                        <a href="{%url 'listScoreStudent' baikt.makt '1010TB' %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                        <a href="{%url 'listScoreStudent' baikt.makt username %}" class="btn btn-block btn-success">Xem kết quả</a>
                                     {% else %}
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <a href="{%url 'listStudentLamBai' baikt.makt %}" class="btn btn-block btn-primary">Làm bài</a>
                                             </div>
                                             <div class="col-md-6">
-                                                <a href="{%url 'listScoreStudent' baikt.makt '1010TB' %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                                <a href="{%url 'listScoreStudent' baikt.makt username %}" class="btn btn-block btn-success">Xem kết quả</a>
                                             </div>
                                         </div>
                                     {% endif %} 

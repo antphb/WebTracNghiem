@@ -16,13 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.views.generic.base import RedirectView
 from . import views
+from django.contrib.auth import views as auth_views
+from .forms import *
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     # path('',views.base,name='base'),
-    path('',views.home.as_view(),name='home'),
+    path('', RedirectView.as_view(url='/login/'),name='index'),
+
+    path('profile/',views.home.as_view(),name='home'),
     path("DanhSachDeThi/",views.listTest.as_view(), name="listTest"),
     path("DanhSachCauHoi/",views.listQuesion.as_view(), name="listQuesion"),
     path("DanhSachLopHoc/",views.listGroupClass.as_view(), name="listGroupClass"),
@@ -32,13 +37,33 @@ urlpatterns = [
     path("DanhSachLamBaiHocSinh/<makt>",views.listStudentLamBai.as_view(), name="listStudentLamBai"),
     path("DiemThiHocSinh/<makt>=<malskt>/<mhs>",views.resultTest.as_view(), name="resultTest"),
     path("Dapanchitiet/<makt>=<malskt>/<mhs>",views.detailResultTest.as_view(), name="detailResultTest"),
+
+
     #===========================Edit/ADD============================
     path("deleteTest/<makt>", views.delete_test.as_view(), name="delete_test"),
     path("changeTrangThai/<makt>-<trangthai>", views.changeTrangThai.as_view(), name="changeTrangThai"),
     path("addNewStudent/", views.addNewStudent.as_view(), name="addNewStudent"),
+
+
     #===========================API View============================
     path('api_chuong/<mamon>-<lop>',views.API_getChuong_getBai_byMon.as_view(),name='api_chuong_mon'),
     path('api_bai/<machuong>',views.API_getBai_byChuong.as_view(),name='api_bai_chuong'),
 
+    
+    #==========================Login/Logout=========================
+    path('login/',auth_views.LoginView.as_view(template_name='login/login.html', authentication_form=LoginForm),name='login'),
+    
+    path('change-password/',auth_views.PasswordChangeView.as_view(template_name='login/changepassword.html',form_class=MyPasswordChangeForm,success_url='/passwordchangedone'),name='change_password'),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('passwordchangedone/',auth_views.PasswordChangeDoneView.as_view(template_name='login/changepassworddone.html'),name='password_change_done'),
+
+    path('password-reset/',auth_views.PasswordResetView.as_view(template_name='login/resetPassword.html',form_class=MyPasswordResetForm),name='password_reset'),
+
+    path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='login/resetPasswordDone.html'),name='password_reset_done'),
+
+    path('password-reset-confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='login/resetPasswordConfirm.html',form_class=MySetPasswordForm),name='password_reset_confirm'),
+    path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='login/resetPasswordComplete.html'),name='password_reset_complete'),
+
+    path("logout_user",views.logout_user,name="logout_user"),
+
+]

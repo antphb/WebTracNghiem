@@ -37,70 +37,71 @@
                 <span class="logo-name">Biểu diễn tri thức</span>
             </div>
             <ul class="nav-links">
-                <li>
-                    <div class="icon-link">
-                        <a href=" " style="height: 50px; font-size: 12px;">
-                            <i class="fa-solid fa-list"></i>
-                            <span class="link_name">Danh sách lớp</span>
+                {% if request.user.is_superuser %}
+                    <li>
+                        <div class="icon-link">
+                            <a href=" " style="height: 50px; font-size: 12px;">
+                                <i class="fa-solid fa-list"></i>
+                                <span class="link_name">Danh sách lớp</span>
+                            </a>
+                            <i class="fa-solid fa-caret-down arrow"></i>
+                        </div>
+                        <ul class="sub-menu" id="mySubMenuClass">
+                            <li>
+                                <a class="link_name" href="" >Danh sách lớp</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="" style="height: 50px; font-size: 12px;">
+                            <i class="fa-solid fa-table-list"></i>
+                            <span class="link_name">Danh sách bài thi</span>
                         </a>
-                        <i class="fa-solid fa-caret-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu" id="mySubMenuClass">
-                        <li>
-                            <a class="link_name" href="" >Danh sách lớp</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="" style="height: 50px; font-size: 12px;">
-                        <i class="fa-solid fa-table-list"></i>
-                        <span class="link_name">Danh sách bài thi</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Danh sách bài thi</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="" style="height: 50px; font-size: 12px;">
-                        <i class="fa-solid fa-table-list"></i>
-                        <span class="link_name">Danh sách câu hỏi</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Danh sách câu hỏi</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="icon-link">
-                        <a href=" " style="height: 50px; font-size: 12px;">
-                            <i class="fa-solid fa-list"></i>
-                            <span class="link_name">Thống kê</span>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="">Danh sách bài thi</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="" style="height: 50px; font-size: 12px;">
+                            <i class="fa-solid fa-table-list"></i>
+                            <span class="link_name">Danh sách câu hỏi</span>
                         </a>
-                        <i class="fa-solid fa-caret-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu" id="mySubMenuClass">
-                        <li>
-                            <a class="link_name" href="" >Thống kê</a>
-                        </li>
-                    </ul>
-                </li>
-
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="">Danh sách câu hỏi</a></li>
+                        </ul>
+                    </li>
+    
+                    <li>
+                        <div class="icon-link">
+                            <a href=" " style="height: 50px; font-size: 12px;">
+                                <i class="fa-solid fa-list"></i>
+                                <span class="link_name">Thống kê</span>
+                            </a>
+                            <i class="fa-solid fa-caret-down arrow"></i>
+                        </div>
+                        <ul class="sub-menu" id="mySubMenuClass">
+                            <li>
+                                <a class="link_name" href="" >Thống kê</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
                 <li>
-                    <a href=""  style="height: 50px; font-size: 12px;">
+                    <a href="{% url 'change_password' %}"  style="height: 50px; font-size: 12px;">
                         <i class="fa-solid fa-key"></i>
                         <span class="link_name">Đổi mật khẩu</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Đổi mật khẩu</a></li>
+                        <li><a class="link_name" href="{% url 'change_password' %}">Đổi mật khẩu</a></li>
                     </ul>
                 </li>
                 <li>
                     <form action="" method="post">
-                        <a href=""><i class="fa-sharp fa-solid fa-right-from-bracket"></i>
+                        <a href="{%url 'logout_user' %}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>
                         <span class="link_name">Đăng Xuất</span></a>         
                     </form>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="">Đăng Xuất</a></li>
+                        <li><a class="link_name" href="{%url 'logout_user' %}">Đăng Xuất</a></li>
                     </ul>
                 </li>
                 <li>
@@ -112,12 +113,17 @@
                         </div>
                         <div class="name-job pr-3">
                             <div class="profile_name">
-                                Nguyễn Đình Thanh
+                                {{request.user.last_name}} {{request.user.first_name}}
                             </div>
-                            <div class="job">Teacher</div>
+                            {% if request.user.is_superuser %}
+                                <div class="job">Giáo viên</div>
+                            {% else %}
+                                <div class="job">Học sinh</div>
+                            {% endif %}
                         </div>               
                     </div>
                 </li>
+                
             </ul>
         </div>
         <section class="home-section">

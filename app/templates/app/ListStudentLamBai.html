@@ -141,10 +141,10 @@
                 $("#countdown").html("Hết giờ!");
                 json_dapan=get_json_data()
                 $.ajax({
-                    url: "{% url 'listStudentLamBai' 'list_cauhoiKiemTra.0.makt__makt' %}",
+                    url: "{% url 'listStudentLamBai' list_cauhoiKiemTra.0.makt__makt %}",
                     type: 'POST',
                     data: {
-                        'maHS': "1010TB",
+                        'maHS': '{{username}}',
                         'ma_de_thi': makt,
                         'ma_lskt': malskt,
                         'time_kiem_tra': countDownTime*60,
@@ -154,7 +154,7 @@
                     },
                     success: function(data){
                         alert("Hết giờ, nộp bài thành công");
-                        location.href = "{% url 'resultTest' list_cauhoiKiemTra.0.makt__makt malskt '1010TB'%}";
+                        location.href = "{% url 'resultTest' list_cauhoiKiemTra.0.makt__makt malskt username %}";
                         // location.reload();
                     },
                     error: function(){
@@ -170,7 +170,7 @@
                 url: "{% url 'listStudentLamBai' list_cauhoiKiemTra.0.makt__makt %}",
                 type: 'POST',
                 data: {
-                    'maHS': "1010TB",
+                    'maHS': '{{username}}',
                     'ma_de_thi': makt,
                     'ma_lskt': malskt,
                     'time_kiem_tra': thoigiankiemtra*60,
@@ -180,7 +180,7 @@
                 },
                 success: function(data){
                     alert("Nộp bài thành công");
-                    location.href = "{% url 'resultTest' list_cauhoiKiemTra.0.makt__makt malskt '1010TB'%}";
+                    location.href = "{% url 'resultTest' list_cauhoiKiemTra.0.makt__makt malskt username %}";
                     // location.reload();
                 },
                 error: function(){

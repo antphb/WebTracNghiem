@@ -49,7 +49,7 @@
                 {% endfor %}
                 <div class="row mt-1 mb-1">
                     <div class="col-md-12 pl-1 pr-2">
-                        <a href="{%url 'listStudentQuesion' '10A1' '1010TB' %}" class="btn btn-block btn-success done_test">Kết thúc</a>
+                        <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-block btn-success done_test">Kết thúc</a>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
             {% endfor %}
             <div class="row mt-1 mb-1">
                 <div class="col-md-12 pl-1 pr-2">
-                    <a href="{%url 'listStudentQuesion' '10A1' '1010TB' %}" class="btn btn-block btn-success done_test">Kết thúc</a>
+                    <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-block btn-success done_test">Kết thúc</a>
                 </div>
             </div>
         </div>

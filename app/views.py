@@ -9,6 +9,10 @@ import random
 import string
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+
+
 
 
 # Create your views here.
@@ -27,16 +31,28 @@ time_test={
     '180P': '180:00',
 }
 
+def get_user_class(request):
+    user=request.user.username
+    lophoc= Hocsinh.objects.get(mahs=request.user).lophoc.malop
+    return user,lophoc
+
 def base(request):
     return render(request,'app/base.html')
 
 class home(View):
     def get(self,request):
-        soluongCauhoi= Cauhoi.objects.count()
-        soluongLopHoc= Lophoc.objects.count()
-        soLuongBaiKt= Baikiemtra.objects.count()
-
-        return render(request,'app/home.html',locals())
+        if request.user.is_superuser:
+            soluongCauhoi= Cauhoi.objects.count()
+            soluongLopHoc= Lophoc.objects.count()
+            soLuongBaiKt= Baikiemtra.objects.count()
+        
+            return render(request,'app/home.html',locals())
+        else:
+            
+            user=request.user.username
+            lophoc= Hocsinh.objects.get(mahs=request.user).lophoc.malop
+            url= f'/DanhSachCauHoiHocSinh/{lophoc}={user}'
+            return redirect(url)
 
 def MakeTest(nb,th,vd,vdc,ds_cauhoi,socauhoi):
     ds_cauhoi_nhanbiet= ds_cauhoi.filter(mucdo='Nhận biết')
@@ -209,6 +225,11 @@ class addNewStudent(View):
         sdt= request.POST['sdt']
         hocsinh= Hocsinh(mahs=mhs,tenhs=hoten,lophoc=Lophoc.objects.get(malop=lophoc),email=email,sdt=sdt,matkhau='1111')
         hocsinh.save()
+        name_split= hoten.rsplit(' ',1)
+        first_name= name_split[1]
+        last_name= name_split[0]
+        user= User.objects.create_user(username=mhs,password='1111',email=email,first_name=first_name,last_name=last_name,is_staff=False)
+        user.save()
         return redirect(request.META.get('HTTP_REFERER')) 
 
 class listStudent(View):
@@ -229,7 +250,7 @@ class listScoreStudent(View):
 
 class listStudentQuesion(View):
     def get(self,request,mlh,mhs):
-        # print(mlh,mhs)
+        username,classname=get_user_class(request)
         List_bai_kiem_tra= Baikiemtra.objects.filter(lopkt=mlh)
         l_or_n=[]
         for bkt in List_bai_kiem_tra:
@@ -240,6 +261,7 @@ class listStudentQuesion(View):
 
 class resultTest(View):
     def get(self,request,makt,malskt,mhs):
+        username,classname=get_user_class(request)
         temp_makt=makt
         temp_malskt=malskt
         lskt_diem_time= Lichsukiemtra.objects.select_related(
@@ -325,6 +347,7 @@ class resultTest(View):
 
 class listStudentLamBai(View):
     def get(self,request,makt):
+        username,classname=get_user_class(request)
         list_cauhoiKiemTra=Cauhoikiemtra.objects.select_related('cauhoi_macauhoi__macauhoi','makt__makt').values(
             'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__thoigian',
             'cauhoi_macauhoi__noidung','cauhoi_macauhoi__dapana','cauhoi_macauhoi__dapanb','cauhoi_macauhoi__dapanc','cauhoi_macauhoi__dapand','cauhoi_macauhoi__dapandung','cauhoi_macauhoi__mucdo'
@@ -384,6 +407,7 @@ class listStudentLamBai(View):
     
 class detailResultTest(View):
     def get(self,request,makt,malskt,mhs):
+        username,classname=get_user_class(request)
         lich_su_kiem_tra= Lichsukiemtra.objects.select_related(
             'mahs__mahs','mals__mals','machkt__machkt','cauhoi_macauhoi__macauhoi'
         ).values(
@@ -408,3 +432,7 @@ class detailResultTest(View):
         # print(compare_dapan)
         # print(lich_su_kiem_tra[0])
         return render(request,'app/DetailResultTest.html',locals())
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
