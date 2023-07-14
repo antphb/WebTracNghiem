@@ -100,7 +100,23 @@
 <script src="{%static 'js/base.js'%}"></script>
 <script>
     $(document).ready(function(){
-        var len_cauhoi= {{list_cauhoiKiemTra|length}};
+        
+        function calRemainingMinutes(startTime,endTime)
+        {
+            // Chuyển đổi chuỗi thành đối tượng Date
+            var startDate = new Date("January 1, 2022 " + startTime);
+            var endDate = new Date("January 1, 2022 " + endTime);
+
+            // Tính toán khoảng thời gian (đơn vị millisecond)
+            var timeDiff = endDate - startDate;
+
+            // Chuyển đổi sang phút và làm tròn xuống
+            var remainingMinutes = Math.floor(timeDiff / 1000 / 60);
+
+            return remainingMinutes;
+        }
+
+        var len_cauhoi= Number("{{list_cauhoiKiemTra|length}}");
         var makt='{{list_cauhoiKiemTra.0.makt__makt}}'
         var malskt='{{malskt}}'
         function get_json_data(){
@@ -116,9 +132,14 @@
             }
             return json_dapan
         }
-        var thoigiankiemtra="{{list_cauhoiKiemTra.0.makt__thoigian}}".split(":")[0];
-        // console.log(thoigiankiemtra);
-        var countDownTime = thoigiankiemtra;
+        var thoigianHienTai = new Date().getHours() + ":" + new Date().getMinutes()+ ":" + new Date().getSeconds();
+        console.log(thoigianHienTai); // 0:12
+        var thoiginaKT= '{{test_thoigianlambaiKT}}'
+        console.log(thoiginaKT);// 00:30
+
+        thoiGianKiemTraConLai=calRemainingMinutes(thoigianHienTai,thoiginaKT)
+        console.log(thoiGianKiemTraConLai);
+        var countDownTime = thoiGianKiemTraConLai;
         var timeLeft = countDownTime * 60;
         var timeout=false;
         
@@ -173,7 +194,7 @@
                     'maHS': '{{username}}',
                     'ma_de_thi': makt,
                     'ma_lskt': malskt,
-                    'time_kiem_tra': thoigiankiemtra*60,
+                    'time_kiem_tra': countDownTime*60,
                     'time_student_done': timeLeft,
                     'dap_an_tra_loi': JSON.stringify(json_dapan),
                     'csrfmiddlewaretoken': '{{csrf_token}}'

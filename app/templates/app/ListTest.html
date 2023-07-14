@@ -109,7 +109,7 @@
                         <label class="form-control" >Tên đề</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="text" name="addTenDe" class="form-control" id="addTenDe" value="test đề">
+                        <input type="text" name="addTenDe" class="form-control" id="addTenDe">
                     </div>
                 </div>
                 <div class="row">
@@ -170,7 +170,7 @@
                         <label class="form-control">Số câu hỏi</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="number" name="addSoCauHoi" class="form-control" id="addSoCauHoi" min="0" value="30">
+                        <input type="number" name="addSoCauHoi" class="form-control" id="addSoCauHoi" min="0" value="10">
                     </div>
                 </div>
                 <div class="row">
@@ -323,7 +323,6 @@
         
         $('#addMucDo').change(function(){
             var mucdo= $('#addMucDo :selected').val();
-            console.log(mucdo);
             if (mucdo == 'De')
             {
                 pct_Nhanbiet="60";
@@ -390,6 +389,18 @@
                 $(this).parent().find('input').prop('checked',false);
             }
         })
+
+        function check_var(tende,mamonKT,malopKT,ngaylam,giolam,thoigianlam,socauhoi,solanthi,noidungKT,loairade)
+        {
+            if (tende.trim() === "" || mamonKT.trim() === "" || malopKT.trim() === "" || ngaylam.trim() === "" || giolam.trim() === "" || thoigianlam.trim() === "" || socauhoi.trim() === "" || solanthi.trim() === "" || noidungKT.trim() === "" || loairade.trim() === "" || Number(pct_Nhanbiet)+Number(pct_Thonghieu)+Number(pct_Vandung)+Number(pct_Vandungcao) != 100)
+            {
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
         $('#addBaiKT').click(
             function(){
                 made=$('#addMaDe').val(),
@@ -409,7 +420,7 @@
                 noidungKT=noidungKT.join('-')
 
                 var loairade= $('#addloairade :selected').val();
-                console.log(loairade)
+                
                 if (loairade == "TuChon")
                 {
                     pct_Nhanbiet= $('#addNhanBiet').val();
@@ -417,36 +428,44 @@
                     pct_Vandung= $('#addVanDung').val();
                     pct_Vandungcao= $('#addVanDungCao').val();
                 }
-                $.ajax({
-                    url: "{%url 'listTest'%}",
-                    type: 'POST',
-                    data:{
-                    'made':made,
-                    'tende':tende,
-                    'mamonKT':mamonKT,
-                    'malopKT':malopKT,
-                    'ngaylam':ngaylam,
-                    'giolam':giolam,
-                    'thoigianlam':thoigianlam,
-                    'socauhoi':socauhoi,
-                    'solanthi':solanthi,
-                    'ghichu':ghichu,
-                    'noidungKT':noidungKT,
-                    'pct_Nhanbiet':pct_Nhanbiet,
-                    'pct_Thonghieu':pct_Thonghieu,
-                    'pct_Vandung':pct_Vandung,
-                    'pct_Vandungcao':pct_Vandungcao,
-                    'csrfmiddlewaretoken': '{{csrf_token}}'
-                    },
-                    success: function(data){
-                        alert("Tạo đề thành công");
-                        location.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown){
-                        alert("thất bại");
-                        console.error(textStatus + " " + errorThrown);
-                    }
-                })
+                check=check_var(tende,mamonKT,malopKT,ngaylam,giolam,thoigianlam,socauhoi,solanthi,noidungKT,loairade)
+                if (check)
+                {
+                    $.ajax({
+                        url: "{%url 'listTest'%}",
+                        type: 'POST',
+                        data:{
+                        'made':made,
+                        'tende':tende,
+                        'mamonKT':mamonKT,
+                        'malopKT':malopKT,
+                        'ngaylam':ngaylam,
+                        'giolam':giolam,
+                        'thoigianlam':thoigianlam,
+                        'socauhoi':socauhoi,
+                        'solanthi':solanthi,
+                        'ghichu':ghichu,
+                        'noidungKT':noidungKT,
+                        'pct_Nhanbiet':pct_Nhanbiet,
+                        'pct_Thonghieu':pct_Thonghieu,
+                        'pct_Vandung':pct_Vandung,
+                        'pct_Vandungcao':pct_Vandungcao,
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                        },
+                        success: function(data){
+                            alert("Tạo đề thành công");
+                            location.reload();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown){
+                            alert("thất bại");
+                            console.error(textStatus + " " + errorThrown);
+                        }
+                    })
+                }
+                else
+                {
+                    alert("Bạn chưa nhập đủ thông tin hoặc tổng phần trăm không bằng 100%")
+                }
             }
         )
     });

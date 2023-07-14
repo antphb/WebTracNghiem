@@ -40,44 +40,42 @@
                 {% if request.user.is_superuser %}
                     <li>
                         <div class="icon-link">
-                            <a href=" " style="height: 50px; font-size: 12px;">
-                                <i class="fa-solid fa-list"></i>
+                            <a href="{%url 'listGroupClass' %}" style="height: 50px; font-size: 12px;">
+                                <i class="fa-solid fa-address-book fa-2xl" style="color: #ffffff;"></i>
                                 <span class="link_name">Danh sách lớp</span>
                             </a>
-                            <i class="fa-solid fa-caret-down arrow"></i>
                         </div>
                         <ul class="sub-menu" id="mySubMenuClass">
                             <li>
-                                <a class="link_name" href="" >Danh sách lớp</a>
+                                <a class="link_name" href="{%url 'listGroupClass' %}" >Danh sách lớp</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="" style="height: 50px; font-size: 12px;">
-                            <i class="fa-solid fa-table-list"></i>
+                        <a href="{%url 'listTest'%}" style="height: 50px; font-size: 12px;">
+                            <i class="fa-solid fa-list fa-2xl" style="color: #ffffff;"></i>
                             <span class="link_name">Danh sách bài thi</span>
                         </a>
                         <ul class="sub-menu blank">
-                            <li><a class="link_name" href="">Danh sách bài thi</a></li>
+                            <li><a class="link_name" href="{%url 'listTest'%}">Danh sách bài thi</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="" style="height: 50px; font-size: 12px;">
-                            <i class="fa-solid fa-table-list"></i>
+                        <a href="{%url 'listQuesion'%}" style="height: 50px; font-size: 12px;">
+                            <i class="fa-solid fa-list-ol fa-2xl" style="color: #ffffff;"></i>
                             <span class="link_name">Danh sách câu hỏi</span>
                         </a>
                         <ul class="sub-menu blank">
-                            <li><a class="link_name" href="">Danh sách câu hỏi</a></li>
+                            <li><a class="link_name" href="{%url 'listQuesion'%}">Danh sách câu hỏi</a></li>
                         </ul>
                     </li>
     
                     <li>
                         <div class="icon-link">
-                            <a href=" " style="height: 50px; font-size: 12px;">
-                                <i class="fa-solid fa-list"></i>
+                            <a href="" style="height: 50px; font-size: 12px;">
+                                <i class="fa-solid fa-chart-simple fa-2xl" style="color: #ffffff;"></i>
                                 <span class="link_name">Thống kê</span>
                             </a>
-                            <i class="fa-solid fa-caret-down arrow"></i>
                         </div>
                         <ul class="sub-menu" id="mySubMenuClass">
                             <li>

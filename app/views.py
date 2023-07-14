@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-
+import datetime
 
 
 
@@ -35,6 +35,8 @@ def get_user_class(request):
     user=request.user.username
     lophoc= Hocsinh.objects.get(mahs=request.user).lophoc.malop
     return user,lophoc
+
+
 
 def base(request):
     return render(request,'app/base.html')
@@ -250,10 +252,29 @@ class listScoreStudent(View):
 
 class listStudentQuesion(View):
     def get(self,request,mlh,mhs):
+        today= datetime.date.today()
+        gioToday= datetime.datetime.now().time().strftime("%H:%M")
         username,classname=get_user_class(request)
         List_bai_kiem_tra= Baikiemtra.objects.filter(lopkt=mlh)
         l_or_n=[]
+        
+        soluongbaithi=len(List_bai_kiem_tra)
         for bkt in List_bai_kiem_tra:
+            test_ngaylambai=bkt.ngaylambai
+            test_giolambai=bkt.giolambai
+            test_solanthi=bkt.solanthi==1
+            print(test_solanthi)
+            test_thoigiankiemtra=bkt.thoigian.split(':')[0]
+
+            test_thoigianlambai = check_SoLanThi(test_giolambai,test_thoigiankiemtra,test_solanthi)
+
+            if str(today) == test_ngaylambai and test_giolambai<=gioToday<=test_thoigianlambai:
+                bkt.trangthai= True
+                bkt.save()
+            else:
+                bkt.trangthai= False
+                bkt.save()
+            # print(bkt.trangthai)
             List_bai_kiem_tra_test = Lichsukiemtra.objects.filter(mahs=mhs,makt=bkt.makt)
             l_or_n.append(List_bai_kiem_tra_test.count() >= bkt.solanthi)
         baikt_zip= zip(List_bai_kiem_tra,l_or_n)
@@ -345,14 +366,41 @@ class resultTest(View):
             })
         return render(request,'app/ResultTest.html',locals())
 
+
+def check_SoLanThi(test_giolambai,test_thoigiankiemtra,is1Lan):
+    if is1Lan == True:
+        if int(test_thoigiankiemtra) < 60:
+            test_thoigianlambaiKT= datetime.timedelta(minutes=int(test_thoigiankiemtra)) + datetime.datetime.strptime(test_giolambai, "%H:%M")
+        else:
+            hour= int(test_thoigiankiemtra)//60
+            minute= int(test_thoigiankiemtra)%60
+            test_thoigianlambaiKT= datetime.timedelta(hours=hour,minutes=minute) + datetime.datetime.strptime(test_giolambai, "%H:%M")
+        test_thoigianlambaiKT= test_thoigianlambaiKT.strftime("%H:%M")
+        return test_thoigianlambaiKT
+    else:
+        if int(test_thoigiankiemtra) < 60:
+            test_thoigianlambaiKT= datetime.timedelta(minutes=int(test_thoigiankiemtra)) + datetime.datetime.now()
+        else:
+            hour= int(test_thoigiankiemtra)//60
+            minute= int(test_thoigiankiemtra)%60
+            test_thoigianlambaiKT= datetime.timedelta(hours=hour,minutes=minute) + datetime.datetime.now()
+        test_thoigianlambaiKT= test_thoigianlambaiKT.strftime("%H:%M")
+        return test_thoigianlambaiKT
+
 class listStudentLamBai(View):
     def get(self,request,makt):
         username,classname=get_user_class(request)
         list_cauhoiKiemTra=Cauhoikiemtra.objects.select_related('cauhoi_macauhoi__macauhoi','makt__makt').values(
-            'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__thoigian',
+            'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__thoigian','makt__giolambai','makt__solanthi',
             'cauhoi_macauhoi__noidung','cauhoi_macauhoi__dapana','cauhoi_macauhoi__dapanb','cauhoi_macauhoi__dapanc','cauhoi_macauhoi__dapand','cauhoi_macauhoi__dapandung','cauhoi_macauhoi__mucdo'
-        ).filter(makt__makt=makt)
+        ).filter(makt__makt=makt).order_by('?')
+        
         # print(list_cauhoiKiemTra)
+        test_giolambai=list_cauhoiKiemTra[0]['makt__giolambai']
+        test_thoigiankiemtra=list_cauhoiKiemTra[0]['makt__thoigian'].split(':')[0]
+        test_soLanthi=list_cauhoiKiemTra[0]['makt__solanthi']==1
+        test_thoigianlambaiKT=check_SoLanThi(test_giolambai,test_thoigiankiemtra,test_soLanthi)
+
         socauhoi= [i for i in range(len(list_cauhoiKiemTra))]
         soCot=[i for i in range(4)]
         soHang=[i for i in range(math.ceil(len(list_cauhoiKiemTra)/len(soCot)))]
@@ -407,7 +455,9 @@ class listStudentLamBai(View):
     
 class detailResultTest(View):
     def get(self,request,makt,malskt,mhs):
-        username,classname=get_user_class(request)
+        if not request.user.is_superuser:
+            username,classname=get_user_class(request)
+        makt_de_thi= makt
         lich_su_kiem_tra= Lichsukiemtra.objects.select_related(
             'mahs__mahs','mals__mals','machkt__machkt','cauhoi_macauhoi__macauhoi'
         ).values(

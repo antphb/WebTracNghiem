@@ -16,125 +16,134 @@
     <div class="snippet-body">
         <div class="container-fluid">
             <div class="card-columns">
-                {% for baikt,lambai in baikt_zip %}
-                    <div class="card">
-                        <div class="card-body" style="font-size: 20px;">
-                            <div class="">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Mã đề: </p>
+                {% if soluongbaithi != 0 %}
+                    {% for baikt,lambai in baikt_zip %}
+                        <div class="card">
+                            <div class="card-body" style="font-size: 20px;">
+                                <div class="">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Mã đề: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.makt}}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.makt}}</p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Tên đề: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.tenkt}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Tên đề: </p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Môn: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.monkt}}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.tenkt}}</p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Lớp: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.lopkt}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Môn: </p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Ngày thi: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.ngaylambai}}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.monkt}}</p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Giờ thi: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.giolambai}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Lớp: </p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Thời gian làm bài:</p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.thoigian}}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.lopkt}}</p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Số câu hỏi: </p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.socauhoi}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Ngày thi: </p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Số lần được thi:</p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.solanthi}}</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.ngaylambai}}</p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Trạng thái: </p>
+                                        </div>
+                                        {% if baikt.trangthai %}
+                                            <div class="col-md-7">
+                                                <p class="card-text m-0">Mở</p>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-7">
+                                                <p class="card-text m-0">Đóng</p>
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Giờ thi: </p>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.giolambai}}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Thời gian làm bài:</p>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.thoigian}}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Số câu hỏi: </p>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.socauhoi}}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Số lần được thi:</p>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.solanthi}}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Trạng thái: </p>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <p class="card-text m-0">Ghi chú:</p>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <p class="card-text m-0">{{baikt.ghichu}}</p>
+                                        </div>
                                     </div>
                                     {% if baikt.trangthai %}
-                                        <div class="col-md-7">
-                                            <p class="card-text m-0">Mở</p>
-                                        </div>
-                                    {% else %}
-                                        <div class="col-md-7">
-                                            <p class="card-text m-0">Đóng</p>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <p class="card-text m-0">Ghi chú:</p>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <p class="card-text m-0">{{baikt.ghichu}}</p>
-                                    </div>
-                                </div>
-                                {% if baikt.trangthai %}
-                                    {% if lambai %}
-                                        <a href="{%url 'listScoreStudent' baikt.makt username %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                        {% if lambai %}
+                                            <a href="{%url 'listScoreStudent' baikt.makt username %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                        {% else %}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <a href="{%url 'listStudentLamBai' baikt.makt %}" class="btn btn-block btn-primary">Làm bài</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="{%url 'listScoreStudent' baikt.makt username %}" class="btn btn-block btn-success">Xem kết quả</a>
+                                                </div>
+                                            </div>
+                                        {% endif %} 
                                     {% else %}
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <a href="{%url 'listStudentLamBai' baikt.makt %}" class="btn btn-block btn-primary">Làm bài</a>
+                                                <a class="btn btn-block btn-warning">Đã khóa</a>
                                             </div>
                                             <div class="col-md-6">
                                                 <a href="{%url 'listScoreStudent' baikt.makt username %}" class="btn btn-block btn-success">Xem kết quả</a>
                                             </div>
                                         </div>
-                                    {% endif %} 
-                                {% else %}
-                                    <a class="btn btn-block btn-warning">Đã khóa</a>
-                                {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                
-                {% endfor %}
+                    
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

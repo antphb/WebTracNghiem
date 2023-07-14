@@ -48,9 +48,15 @@
                     </div> 
                 {% endfor %}
                 <div class="row mt-1 mb-1">
-                    <div class="col-md-12 pl-1 pr-2">
-                        <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-block btn-success done_test">Kết thúc</a>
-                    </div>
+                    {% if request.user.is_superuser%}
+                        <div class="col-md-12 pl-1 pr-2">
+                            <a href="{%url 'listScoreStudent' makt_de_thi 'all' %}" class="btn btn-block btn-success done_test">Kết thúc</a>
+                        </div>
+                    {% else %}
+                        <div class="col-md-12 pl-1 pr-2">
+                            <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-block btn-success done_test">Kết thúc</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -155,9 +161,15 @@
                 </div>
             {% endfor %}
             <div class="row mt-1 mb-1">
-                <div class="col-md-12 pl-1 pr-2">
-                    <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-block btn-success done_test">Kết thúc</a>
-                </div>
+                {% if request.user.is_superuser%}
+                    <div class="col-md-12 pl-1 pr-2">
+                        <a href="{%url 'listScoreStudent' makt_de_thi 'all' %}" class="btn btn-block btn-success done_test">Kết thúc</a>
+                    </div>
+                {% else %}
+                    <div class="col-md-12 pl-1 pr-2">
+                        <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-block btn-success done_test">Kết thúc</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
