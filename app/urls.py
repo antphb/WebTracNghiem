@@ -42,7 +42,9 @@ urlpatterns = [
     #===========================Edit/ADD============================
     path("deleteTest/<makt>", views.delete_test.as_view(), name="delete_test"),
     path("changeTrangThai/<makt>-<trangthai>", views.changeTrangThai.as_view(), name="changeTrangThai"),
+
     path("addNewStudent/", views.addNewStudent.as_view(), name="addNewStudent"),
+    path("deleteStudent/<mhs>", views.deleteStudent.as_view(), name="deleteStudent"),
 
 
     #===========================API View============================

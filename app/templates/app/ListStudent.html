@@ -50,7 +50,7 @@
                                             <a class="btn text-info p-0" href="javascript:void(0)" data-toggle="modal" data-target="#ModalEDIT" data-mssv="{{stu.masv}}" data-hodem="{{stu.hodem}}" data-ten="{{stu.ten}}" data-lop="{{stu.malop.malh}}" data-gioitinh="{{gioitinh}}" data-dantoc="{{stu.dantoc}}" data-email="{{stu.email}}" data-sdt="{{stu.sodt}}" data-ngaysinh="{{stu.ngaysinh}}" data-noisinh="{{stu.noisinh}}">
                                                 <i class="fas fa-pencil-alt ml-2"></i>
                                             </a>
-                                            <a class="btn text-danger p-0" href="" onclick="return confirm('Bạn có chắc muốn xóa?')">
+                                            <a class="btn text-danger p-0" href="{%url 'deleteStudent' hs.mahs%}" onclick="return confirm('Bạn có chắc muốn xóa?')">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </div>

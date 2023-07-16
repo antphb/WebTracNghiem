@@ -237,6 +237,12 @@ class addNewStudent(View):
         user.save()
         return redirect(request.META.get('HTTP_REFERER')) 
 
+class deleteStudent(View):
+    def get(self,request,mhs):
+        Hocsinh.objects.get(mahs=mhs).delete()
+        User.objects.get(username=mhs).delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+
 class listStudent(View):
     def get(self,request,malh):
         list_student= Hocsinh.objects.filter(lophoc=Lophoc.objects.get(malop=malh).malop)
@@ -399,7 +405,7 @@ class listStudentLamBai(View):
         list_cauhoiKiemTra=Cauhoikiemtra.objects.select_related('cauhoi_macauhoi__macauhoi','makt__makt').values(
             'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__thoigian','makt__giolambai','makt__solanthi',
             'cauhoi_macauhoi__noidung','cauhoi_macauhoi__dapana','cauhoi_macauhoi__dapanb','cauhoi_macauhoi__dapanc','cauhoi_macauhoi__dapand','cauhoi_macauhoi__dapandung','cauhoi_macauhoi__mucdo'
-        ).filter(makt__makt=makt).order_by('?')
+        ).filter(makt__makt=makt)
         
         # print(list_cauhoiKiemTra)
         test_giolambai=list_cauhoiKiemTra[0]['makt__giolambai']
