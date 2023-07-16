@@ -26,7 +26,7 @@
                                 <th scope="col">STT</th>
                                 <th scope="col">Mã học sinh</th>
                                 <th scope="col">Tên học sinh</th>
-                                <th scope="col">Tài khoản</th>
+                                <th scope="col">Lần thi</th>
                                 <th scope="col">Lớp</th>
                                 <th scope="col">Điểm</th>
                                 <th>
@@ -42,12 +42,12 @@
                                     <td>{{forloop.counter}}</td>
                                     <td>{{lskt.mahs.mahs}}</td>
                                     <td>{{lskt.mahs.tenhs}}</td>
-                                    <td>Tài khoản</td>
+                                    <td>Lần {{forloop.counter}} </td>
                                     <td>{{lskt.mahs.lophoc.tenlop}}</td>
                                     <td>{{lskt.diem}}</td>
                                     <td>
                                         <div class="d-flex flex-wrap-nowrap justify-content-around">    
-                                            <a class="btn btn-block bg-success p-0" href="{%url 'detailResultTest' lskt.makt.makt lskt.mals lskt.mahs.mahs %}">
+                                            <a class="btn btn-block bg-success p-0" href="{%url 'resultTest' lskt.makt.makt lskt.mals lskt.mahs.mahs %}">
                                                 Chi Tiết
                                             </a>
                                         </div>

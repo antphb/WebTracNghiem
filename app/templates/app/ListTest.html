@@ -26,6 +26,7 @@
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
+                                <th scope="col">STT</th>
                                 <th scope="col">Mã đề</th>
                                 <th scope="col">Tên đề</th>
                                 <th scope="col">Môn</th>
@@ -46,6 +47,7 @@
                         <tbody>
                                 {% for dethi in List_bai_kiem_tra %}
                                     <tr>
+                                        <td>{{forloop.counter}}</td>
                                         <td>{{dethi.makt}}</td>
                                         <td>{{dethi.tenkt}}</td>
                                         <td>{{dethi.monkt}}</td>

@@ -59,7 +59,11 @@
                         </ul>
                         <div class="text-center">
                             <a href="{%url 'detailResultTest' temp_makt temp_malskt username %}" class="btn btn-success text-decoration-none">Đáp án</a>
-                            <a href="{%url 'listStudentQuesion' '10A1' username %}" class="btn btn-success text-decoration-none">Kết thúc</a>
+                            {% if request.user.is_superuser %}
+                                <a href="{%url 'listScoreStudent' temp_makt 'all' %}" class="btn btn-success text-decoration-none">Kết thúc</a>
+                            {% else %}
+                                <a href="{%url 'listStudentQuesion' classname username %}" class="btn btn-success text-decoration-none">Kết thúc</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

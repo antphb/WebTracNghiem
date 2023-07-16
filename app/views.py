@@ -32,8 +32,12 @@ time_test={
 }
 
 def get_user_class(request):
-    user=request.user.username
-    lophoc= Hocsinh.objects.get(mahs=request.user).lophoc.malop
+    try:
+        user=request.user.username
+        lophoc= Hocsinh.objects.get(mahs=request.user).lophoc.malop
+    except:
+        user=request
+        lophoc=Hocsinh.objects.get(mahs=request).lophoc.malop
     return user,lophoc
 
 
@@ -117,7 +121,7 @@ class listTest(View):
             giolambai= giolam,
             thoigian= thoigianlam,
             socauhoi= int(socauhoi),
-            trangthai= True,
+            trangthai= False,
             lopkt= Lophoc.objects.get(malop=malopKT).tenlop,
             solanthi= int(solanthi),
             ghichu= ghichu,
@@ -167,7 +171,6 @@ class changeTrangThai(View):
 
         return redirect(request.META.get('HTTP_REFERER'))
 
-    
 
 class API_getChuong_getBai_byMon(APIView):
     def get(self,request,mamon,lop):
@@ -263,10 +266,10 @@ class listStudentQuesion(View):
             test_ngaylambai=bkt.ngaylambai
             test_giolambai=bkt.giolambai
             test_solanthi=bkt.solanthi==1
-            print(test_solanthi)
             test_thoigiankiemtra=bkt.thoigian.split(':')[0]
 
             test_thoigianlambai = check_SoLanThi(test_giolambai,test_thoigiankiemtra,test_solanthi)
+            # print(test_solanthi)
 
             if str(today) == test_ngaylambai and test_giolambai<=gioToday<=test_thoigianlambai:
                 bkt.trangthai= True
@@ -282,7 +285,10 @@ class listStudentQuesion(View):
 
 class resultTest(View):
     def get(self,request,makt,malskt,mhs):
-        username,classname=get_user_class(request)
+        if not request.user.is_superuser:
+            username,classname=get_user_class(request)
+        else:
+            username,classname= get_user_class(mhs)
         temp_makt=makt
         temp_malskt=malskt
         lskt_diem_time= Lichsukiemtra.objects.select_related(
