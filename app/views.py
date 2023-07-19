@@ -239,6 +239,11 @@ class addNewStudent(View):
 
 class deleteStudent(View):
     def get(self,request,mhs):
+        if Lichsukiemtra.objects.filter(mahs=mhs).count()>0:
+            for i in Lichsukiemtra.objects.filter(mahs=mhs):
+                for j in Chitiedapancauhoi.objects.filter(mals=i.mals):
+                    j.delete()
+        Lichsukiemtra.objects.filter(mahs=mhs).delete()
         Hocsinh.objects.get(mahs=mhs).delete()
         User.objects.get(username=mhs).delete()
         return redirect(request.META.get('HTTP_REFERER'))
@@ -405,8 +410,8 @@ class listStudentLamBai(View):
         list_cauhoiKiemTra=Cauhoikiemtra.objects.select_related('cauhoi_macauhoi__macauhoi','makt__makt').values(
             'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__thoigian','makt__giolambai','makt__solanthi',
             'cauhoi_macauhoi__noidung','cauhoi_macauhoi__dapana','cauhoi_macauhoi__dapanb','cauhoi_macauhoi__dapanc','cauhoi_macauhoi__dapand','cauhoi_macauhoi__dapandung','cauhoi_macauhoi__mucdo'
-        ).filter(makt__makt=makt)
-        
+        ).filter(makt__makt=makt).order_by('?')
+        # print(list_cauhoiKiemTra[0])           
         # print(list_cauhoiKiemTra)
         test_giolambai=list_cauhoiKiemTra[0]['makt__giolambai']
         test_thoigiankiemtra=list_cauhoiKiemTra[0]['makt__thoigian'].split(':')[0]
@@ -494,6 +499,63 @@ class detailResultTest(View):
         # print(compare_dapan)
         # print(lich_su_kiem_tra[0])
         return render(request,'app/DetailResultTest.html',locals())
+
+class StatisticResultTest(View):
+    def get(self,request):
+        return render(request,'app/StatisticResultTest.html',locals())
+
+class API_Get_Score(APIView):
+    def get(self,request):
+        makt='j1uouCrC'
+        list_lskt= Lichsukiemtra.objects.filter(makt=makt)
+        list_score= {}
+        list_score['mahs']= []
+        list_score['tenhs']= []
+        list_score['diemhs']= []
+        for i in list_lskt:
+            list_score['mahs'].append(i.mahs.mahs)
+            list_score['tenhs'].append(i.mahs.tenhs)
+            list_score['diemhs'].append(i.diem)
+        return Response(list_score)
+
+class API_Get_Question_True_False(APIView):
+    def get(self,request):
+        makt='j1uouCrC'
+        baikiemtra= Baikiemtra.objects.select_related(
+            'makt__makt','cauhoi_macauhoi__macauhoi'
+        ).values(
+            'cauhoikiemtra__cauhoi_macauhoi','cauhoikiemtra__cauhoi_macauhoi__noidung',
+        ).filter(makt=makt)
+        # print(baikiemtra)
+        Cau_i_Cauhoi= [f"Câu {i+1}" for i in range(len(baikiemtra))]
+        maCauhoi= [i['cauhoikiemtra__cauhoi_macauhoi'] for i in baikiemtra]
+        noidungCauhoi= [i['cauhoikiemtra__cauhoi_macauhoi__noidung'] for i in baikiemtra]
+        dict_dapandungtungcau= {i['cauhoikiemtra__cauhoi_macauhoi']:0 for i in baikiemtra}
+        print(dict_dapandungtungcau)
+        dict_dapansaitungcau= {i['cauhoikiemtra__cauhoi_macauhoi']:0 for i in baikiemtra}
+        dict_cauhoi= {
+            'cau':Cau_i_Cauhoi,
+            'maCauHoi':maCauhoi,
+            'noiDungCauHoi':noidungCauhoi,
+            'dapandungtungcau':dict_dapandungtungcau,
+            'dapansaitungcau':dict_dapansaitungcau,
+        }
+        lich_su_kiem_tra= Lichsukiemtra.objects.select_related(
+            'mahs__mahs','mals__mals','machkt__machkt','cauhoi_macauhoi__macauhoi'
+        ).values(
+            'chitiedapancauhoi__machkt__cauhoi_macauhoi',
+            'chitiedapancauhoi__dapantraloi',
+            'chitiedapancauhoi__machkt__cauhoi_macauhoi__dapandung',
+        ).filter(makt_id=makt)
+        
+        for i in lich_su_kiem_tra:
+            if i['chitiedapancauhoi__dapantraloi']==i['chitiedapancauhoi__machkt__cauhoi_macauhoi__dapandung']:
+                dict_cauhoi['dapandungtungcau'][i['chitiedapancauhoi__machkt__cauhoi_macauhoi']]+=1
+            else:
+                dict_cauhoi['dapansaitungcau'][i['chitiedapancauhoi__machkt__cauhoi_macauhoi']]+=1
+        return Response(dict_cauhoi)
+
+
 
 def logout_user(request):
     logout(request)

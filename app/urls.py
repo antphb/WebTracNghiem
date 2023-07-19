@@ -37,6 +37,7 @@ urlpatterns = [
     path("DanhSachLamBaiHocSinh/<makt>",views.listStudentLamBai.as_view(), name="listStudentLamBai"),
     path("DiemThiHocSinh/<makt>=<malskt>/<mhs>",views.resultTest.as_view(), name="resultTest"),
     path("Dapanchitiet/<makt>=<malskt>/<mhs>",views.detailResultTest.as_view(), name="detailResultTest"),
+    path("Thongke/",views.StatisticResultTest.as_view(), name="statisticResultTest"),
 
 
     #===========================Edit/ADD============================
@@ -51,6 +52,8 @@ urlpatterns = [
     path('api_chuong/<mamon>-<lop>',views.API_getChuong_getBai_byMon.as_view(),name='api_chuong_mon'),
     path('api_bai/<machuong>',views.API_getBai_byChuong.as_view(),name='api_bai_chuong'),
 
+    path('api_getScore/',views.API_Get_Score.as_view(),name='api_getScore'),
+    path('api_getQuestionTF/', views.API_Get_Question_True_False.as_view(), name='api_getQuestionTF'),
     
     #==========================Login/Logout=========================
     path('login/',auth_views.LoginView.as_view(template_name='login/login.html', authentication_form=LoginForm),name='login'),
