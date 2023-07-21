@@ -69,13 +69,13 @@ def MakeTest(nb,th,vd,vdc,ds_cauhoi,socauhoi):
     pctTH= socauhoi*float(th)/100
     pctVD= socauhoi*float(vd)/100
     pctVDC = socauhoi*float(vdc)/100
-    list_cauhoi_nhanbiet=random.choices(list(ds_cauhoi_nhanbiet),k=math.floor(pctNB))
-    list_cauhoi_thonghieu=random.choices(list(ds_cauhoi_thonghieu),k=math.floor(pctTH))
-    list_cauhoi_vandung=random.choices(list(ds_cauhoi_vandung),k=math.floor(pctVD))
-    list_cauhoi_vandungcao=random.choices(list(ds_cauhoi_vandungcao),k=math.ceil(pctVDC))
+    list_cauhoi_nhanbiet=random.sample(list(ds_cauhoi_nhanbiet),k=math.floor(pctNB))
+    list_cauhoi_thonghieu=random.sample(list(ds_cauhoi_thonghieu),k=math.floor(pctTH))
+    list_cauhoi_vandung=random.sample(list(ds_cauhoi_vandung),k=math.floor(pctVD))
+    list_cauhoi_vandungcao=random.sample(list(ds_cauhoi_vandungcao),k=math.ceil(pctVDC))
     list_cauhoi= list_cauhoi_nhanbiet+list_cauhoi_thonghieu+list_cauhoi_vandung+list_cauhoi_vandungcao
     if len(list_cauhoi)<socauhoi:
-        list_cauhoi_vandungcao_new=random.choices(list(ds_cauhoi_vandungcao),k=socauhoi-len(list_cauhoi))
+        list_cauhoi_vandungcao_new=random.sample(list(ds_cauhoi_vandungcao),k=socauhoi-len(list_cauhoi))
         list_cauhoi= list_cauhoi_nhanbiet+list_cauhoi_thonghieu+list_cauhoi_vandung+list_cauhoi_vandungcao+list_cauhoi_vandungcao_new
     
     # print(len(list_cauhoi))
@@ -500,6 +500,55 @@ class detailResultTest(View):
         # print(lich_su_kiem_tra[0])
         return render(request,'app/DetailResultTest.html',locals())
 
+class detailTest(View):
+    def get(self,request,makt):
+        makt_de_thi= makt
+        list_cauhoiKiemTra=Cauhoikiemtra.objects.select_related('cauhoi_macauhoi__macauhoi','makt__makt').values(
+            'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__thoigian','makt__giolambai','makt__solanthi',
+            'cauhoi_macauhoi__noidung','cauhoi_macauhoi__dapana','cauhoi_macauhoi__dapanb','cauhoi_macauhoi__dapanc','cauhoi_macauhoi__dapand','cauhoi_macauhoi__dapandung','cauhoi_macauhoi__mucdo'
+        ).filter(makt__makt=makt)
+
+        # print(lich_su_kiem_tra)
+        socauhoi= [i for i in range(len(list_cauhoiKiemTra))]
+        soCot=[i for i in range(4)]
+        soHang=[i for i in range(math.ceil(len(list_cauhoiKiemTra)/len(soCot)))]
+        socauhoi_list=zip(socauhoi,list_cauhoiKiemTra)
+        compare_dapan=[True]*len(list_cauhoiKiemTra)
+
+        return render(request,'app/DetailTest.html',locals())
+
+class printTestPDF(View):
+    def get(self,request,makt):
+        list_cauhoiKiemTra=Cauhoikiemtra.objects.select_related('cauhoi_macauhoi__macauhoi','makt__makt').values(
+            'cauhoi_macauhoi__macauhoi','makt__makt','makt__tenkt','makt__lopkt','makt__thoigian','makt__giolambai','makt__solanthi',
+            'cauhoi_macauhoi__noidung','cauhoi_macauhoi__dapana','cauhoi_macauhoi__dapanb','cauhoi_macauhoi__dapanc','cauhoi_macauhoi__dapand','cauhoi_macauhoi__dapandung','cauhoi_macauhoi__mucdo'
+        ).filter(makt__makt=makt).order_by('?')
+        # print(list_cauhoiKiemTra[0])           
+        # print(list_cauhoiKiemTra)
+        test_thoigiankiemtra=list_cauhoiKiemTra[0]['makt__thoigian'].split(':')[0]
+        lopkiemtra=list_cauhoiKiemTra[0]['makt__lopkt']
+        tende=list_cauhoiKiemTra[0]['makt__tenkt']
+        socauhoi= [i for i in range(len(list_cauhoiKiemTra))]
+        soCot=[i for i in range(10)]
+        soHang=[i for i in range(math.ceil(len(list_cauhoiKiemTra)/len(soCot)))]
+        # print(list_cauhoiKiemTra[0])
+        dapandung=[]
+        for i in list_cauhoiKiemTra:
+            if i['cauhoi_macauhoi__dapana'] == i['cauhoi_macauhoi__dapandung']:
+                dapandung.append('A')
+            elif i['cauhoi_macauhoi__dapanb'] == i['cauhoi_macauhoi__dapandung']:
+                dapandung.append('B')
+            elif i['cauhoi_macauhoi__dapanc'] == i['cauhoi_macauhoi__dapandung']:
+                dapandung.append('C')
+            elif i['cauhoi_macauhoi__dapand'] == i['cauhoi_macauhoi__dapandung']:
+                dapandung.append('D')
+            else:
+                dapandung.append('A')
+        # print(dapandung)
+        socauhoi_list=zip(socauhoi,list_cauhoiKiemTra)
+        madethikiemtra=generate_random_string(3)
+        return render(request,'app/PrintTest.html',locals())
+
 class StatisticResultTest(View):
     def get(self,request):
         return render(request,'app/StatisticResultTest.html',locals())
@@ -531,7 +580,7 @@ class API_Get_Question_True_False(APIView):
         maCauhoi= [i['cauhoikiemtra__cauhoi_macauhoi'] for i in baikiemtra]
         noidungCauhoi= [i['cauhoikiemtra__cauhoi_macauhoi__noidung'] for i in baikiemtra]
         dict_dapandungtungcau= {i['cauhoikiemtra__cauhoi_macauhoi']:0 for i in baikiemtra}
-        print(dict_dapandungtungcau)
+        # print(dict_dapandungtungcau)
         dict_dapansaitungcau= {i['cauhoikiemtra__cauhoi_macauhoi']:0 for i in baikiemtra}
         dict_cauhoi= {
             'cau':Cau_i_Cauhoi,
@@ -547,7 +596,7 @@ class API_Get_Question_True_False(APIView):
             'chitiedapancauhoi__dapantraloi',
             'chitiedapancauhoi__machkt__cauhoi_macauhoi__dapandung',
         ).filter(makt_id=makt)
-        
+
         for i in lich_su_kiem_tra:
             if i['chitiedapancauhoi__dapantraloi']==i['chitiedapancauhoi__machkt__cauhoi_macauhoi__dapandung']:
                 dict_cauhoi['dapandungtungcau'][i['chitiedapancauhoi__machkt__cauhoi_macauhoi']]+=1

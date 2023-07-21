@@ -37,6 +37,8 @@ urlpatterns = [
     path("DanhSachLamBaiHocSinh/<makt>",views.listStudentLamBai.as_view(), name="listStudentLamBai"),
     path("DiemThiHocSinh/<makt>=<malskt>/<mhs>",views.resultTest.as_view(), name="resultTest"),
     path("Dapanchitiet/<makt>=<malskt>/<mhs>",views.detailResultTest.as_view(), name="detailResultTest"),
+    path("Dapanchitietcauhoi/<makt>",views.detailTest.as_view(), name="detailTest"),
+    path("pdf/<makt>",views.printTestPDF.as_view(), name="printTestPDF"),
     path("Thongke/",views.StatisticResultTest.as_view(), name="statisticResultTest"),
 
 

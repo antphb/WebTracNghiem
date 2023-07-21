@@ -48,8 +48,11 @@
                                 {% for dethi in List_bai_kiem_tra %}
                                     <tr>
                                         <td>{{forloop.counter}}</td>
-                                        <td>{{dethi.makt}}</td>
-                                        <td>{{dethi.tenkt}}</td>
+                                        <td> 
+                                            <a href="{%url 'detailTest' dethi.makt%}">{{dethi.makt}}</a>
+                                        </td>
+                                        <td>{{dethi.tenkt}}
+                                        </td>
                                         <td>{{dethi.monkt}}</td>
                                         <td>{{dethi.lopkt}}</td>
                                         <td>{{dethi.ngaylambai}} {{dethi.giolambai}}</td>
@@ -71,7 +74,9 @@
                                                 <a class="btn text-info p-0" href="{%url 'listScoreStudent' dethi.makt 'all' %}">
                                                     <i class="fa-solid fa-circle-info"></i>
                                                 </a>
-
+                                                <a href="{%url 'printTestPDF' dethi.makt %}" class="btn text-success p-0" target="_blank">
+                                                    <i class="fa-solid fa-download"></i>
+                                                </a>
                                                 <a class="btn text-danger p-0" href="{%url 'delete_test' dethi.makt %}" onclick="return confirm('Bạn có chắc muốn xóa?')">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>

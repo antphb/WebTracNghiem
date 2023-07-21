@@ -1,0 +1,123 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load getByIndex%}
+
+{% block name-title %}
+    Danh sách bài thi trắc nghiệm
+{% endblock name-title %}
+
+{% block link-css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="{% static 'css/tableStudent.css' %}">
+<style>
+    #dichuyen{
+        position: sticky;
+        top: 20px;
+    }
+</style>
+{% endblock link-css %}
+
+{% block main-content %}
+<div class="home-dashboard d-block" style="height: auto;">
+    <div class="row ml-3 mr-3">
+        <div class="col-md-4 d-flex justify-content-center">
+            <div id="dichuyen" class="khung d-flex flex-column flex-wrap align-content-around" style="border: 2px solid red; width: 200px;height: fit-content; border-radius: 10px;">
+                {% for row in soHang %}
+                    <div class="row mt-1">
+                    {% for col in soCot %}
+                        {% if row|mul:soCot|length|add:col|add:1 <= list_cauhoiKiemTra|length %}
+                            {% with row|mul:soCot|length|add:col as indexTF %}
+                            {% with row|mul:soCot|length|add:col|add:1 as indexCauHoi %}
+                                <div class="col-md-3 pl-1 pr-2">
+                                    {% if compare_dapan|getIndex:indexTF%}
+                                        <p id="CauHoi{{indexCauHoi}}" class="text-center bg-success" style="border: 1px solid green; width: 30px; border-radius: 10px;">
+                                            <a href="#Cau{{indexCauHoi}}" class="text-decoration-none text-white" id="text_done_{{indexCauHoi}}">{{indexCauHoi}}</a>
+                                        </p>
+                                    {% else %}
+                                        <p id="CauHoi{{indexCauHoi}}" class="text-center bg-danger" style="border: 1px solid green; width: 30px; border-radius: 10px;">
+                                            <a href="#Cau{{indexCauHoi}}" class="text-decoration-none text-white" id="text_done_{{indexCauHoi}}">{{indexCauHoi}}</a>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            {% endwith %}
+                            {% endwith %}
+                        {% endif %}
+                    {% endfor %}
+                    </div> 
+                {% endfor %}
+                <div class="row mt-1 mb-1">
+                    <div class="col-md-12 pl-1 pr-2">
+                        <a href="{%url 'listTest' %}" class="btn btn-block btn-success">Quay lại</a>
+                        <a href="{%url 'printTestPDF' makt_de_thi%}"class="btn btn-block btn-primary"  target="_blank">Tải đề</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {% for stt,i in socauhoi_list %}
+                <div id="Cau{{stt|add:1}}" class="mb-3" data-macauhoi="{{i.cauhoi_macauhoi__macauhoi}}">
+                    <strong>Câu {{stt|add:1}}: </strong> {{i.cauhoi_macauhoi__noidung}}
+                    <br>
+                        {% if i.cauhoi_macauhoi__dapana == i.cauhoi_macauhoi__dapandung %}
+                            <label for="c{{stt|add:1}}a" class="mb-0 bg-success">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}a" value="{{i.cauhoi_macauhoi__dapana}}" checked>A. {{i.cauhoi_macauhoi__dapana}}
+                            </label>
+                        {% else %}
+                            <label for="c{{stt|add:1}}a" class="mb-0">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}a" value="{{i.cauhoi_macauhoi__dapana}}">A. {{i.cauhoi_macauhoi__dapana}}
+                            </label>
+                        {% endif %}
+                    <br>
+                    {% if i.cauhoi_macauhoi__dapanb == i.cauhoi_macauhoi__dapandung %}
+                            <label for="c{{stt|add:1}}b" class="mb-0 bg-success">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}b" value="{{i.cauhoi_macauhoi__dapanb}}" checked>B. {{i.cauhoi_macauhoi__dapanb}}
+                            </label>
+                    {% else %}
+                            <label for="c{{stt|add:1}}b" class="mb-0">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}b" value="{{i.cauhoi_macauhoi__dapanb}}">B. {{i.cauhoi_macauhoi__dapanb}}
+                            </label>
+                    {% endif %}
+
+                    <br>
+                    
+                    {% if i.cauhoi_macauhoi__dapanc == i.cauhoi_macauhoi__dapandung %}
+                            <label for="c{{stt|add:1}}c" class="mb-0 bg-success">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}c" value="{{i.cauhoi_macauhoi__dapanc}}" checked>C. {{i.cauhoi_macauhoi__dapanc}}
+                            </label>
+                    {% else %}
+                            <label for="c{{stt|add:1}}c" class="mb-0">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}c" value="{{i.cauhoi_macauhoi__dapanc}}">C. {{i.cauhoi_macauhoi__dapanc}}
+                            </label>
+                    {% endif %}
+
+                    <br>
+                    
+                    {% if i.cauhoi_macauhoi__dapand == i.cauhoi_macauhoi__dapandung %}
+                            <label for="c{{stt|add:1}}d" class="mb-0 bg-success">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}d" value="{{i.cauhoi_macauhoi__dapand}}" checked>D. {{i.cauhoi_macauhoi__dapand}}
+                            </label>
+                    {% else %}
+                            <label for="c{{stt|add:1}}d" class="mb-0">
+                                <input type="radio" name="c{{stt|add:1}}" id="c{{stt|add:1}}d" value="{{i.cauhoi_macauhoi__dapand}}">D. {{i.cauhoi_macauhoi__dapand}}
+                            </label>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="row mt-1 mb-1">
+                <div class="col-md-6 pl-1 pr-2">
+                    <a href="{%url 'listTest' %}" class="btn btn-block btn-success">Quay lại</a>
+                </div>
+                <div class="col-md-6 pl-1 pr-2">
+                    <a href="{%url 'printTestPDF' makt_de_thi%}" class="btn btn-block btn-primary">Tải đề</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
+{% block script-js %}
+    <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{%static 'js/base.js'%}"></script>
+{% endblock script-js %}

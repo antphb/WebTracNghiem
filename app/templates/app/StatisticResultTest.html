@@ -167,6 +167,9 @@
                     y:y_Diem,
                     type:"bar",
                     orientation:"v",
+                    text: y_Diem.map(String),
+                    textposition: 'auto',
+                    // hoverinfo: 'none',
                     marker: {
                         color: y_Diem.map(value => {
                             if (value >= 8) return color_Rank['Xuất sắc'];
@@ -218,9 +221,6 @@
                     list_soluongsaitungcau.push(value);
                 }
             }
-            console.log(list_soluongdungtungcau);
-            console.log(list_soluongsaitungcau);
-            // console.log(list_soluongdungtungcau);
             var trace1={
                 x: cau,
                 y:list_soluongdungtungcau,
@@ -229,6 +229,7 @@
                 text: list_soluongdungtungcau.map(String),
                 textposition: 'auto',
                 hoverinfo: 'none',
+                // orientation: "h",
             };
             var trace2={
                 x: cau,
@@ -238,10 +239,11 @@
                 text: list_soluongsaitungcau.map(String),
                 textposition: 'auto',
                 hoverinfo: 'none',
+                // orientation: "h",
             };
             var data_trace=[trace1,trace2];
             var layout = {
-                barmode: 'stack',
+                // barmode: 'stack',
                 title:"Số lượng học sinh trả lời câu đúng và câu sai",
                 legend: {
                     orientation: "h"
