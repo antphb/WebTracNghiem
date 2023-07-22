@@ -54,8 +54,9 @@ urlpatterns = [
     path('api_chuong/<mamon>-<lop>',views.API_getChuong_getBai_byMon.as_view(),name='api_chuong_mon'),
     path('api_bai/<machuong>',views.API_getBai_byChuong.as_view(),name='api_bai_chuong'),
 
-    path('api_getScore/',views.API_Get_Score.as_view(),name='api_getScore'),
-    path('api_getQuestionTF/', views.API_Get_Question_True_False.as_view(), name='api_getQuestionTF'),
+    path('api_getScore/<makt>',views.API_Get_Score.as_view(),name='api_getScore'),
+    path('api_getQuestionTF/<makt>', views.API_Get_Question_True_False.as_view(), name='api_getQuestionTF'),
+    path('api_get_lop_baikt/', views.API_Get_Lop_BaiKT.as_view(), name='api_get_lop_baikt'),
     
     #==========================Login/Logout=========================
     path('login/',auth_views.LoginView.as_view(template_name='login/login.html', authentication_form=LoginForm),name='login'),

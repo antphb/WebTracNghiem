@@ -79,7 +79,7 @@
                         </div>
                         <ul class="sub-menu" id="mySubMenuClass">
                             <li>
-                                <a class="link_name" href="" >Thống kê</a>
+                                <a class="link_name" href="{%url 'statisticResultTest' %}" >Thống kê</a>
                             </li>
                         </ul>
                     </li>
@@ -127,7 +127,11 @@
         <section class="home-section">
             <div class="home-content">
                 <i class="fa-solid fa-bars"></i>
-                <span class="text">Trang chủ</span>
+                <span class="text">
+                    {% block name-title-app %}
+                        Trang chủ
+                    {% endblock name-title-app %}
+                </span>
             </div>
             {% block main-content %}
             

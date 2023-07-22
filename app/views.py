@@ -1,4 +1,5 @@
 import datetime
+import statistics
 from django.shortcuts import redirect, render
 from django.views import View
 from .models import *
@@ -554,22 +555,35 @@ class StatisticResultTest(View):
         return render(request,'app/StatisticResultTest.html',locals())
 
 class API_Get_Score(APIView):
-    def get(self,request):
-        makt='j1uouCrC'
+    def get(self,request,makt):
         list_lskt= Lichsukiemtra.objects.filter(makt=makt)
         list_score= {}
         list_score['mahs']= []
         list_score['tenhs']= []
         list_score['diemhs']= []
-        for i in list_lskt:
-            list_score['mahs'].append(i.mahs.mahs)
-            list_score['tenhs'].append(i.mahs.tenhs)
-            list_score['diemhs'].append(i.diem)
+        list_score['diemTB']= 0
+        list_score['diemTrungVi']= 0
+        list_score['range']= 0
+        list_score['top5DiemCao']=[]
+        list_score['top5DiemThap']=[]
+        if len(list_lskt)!=0:
+            list_score['diemTB']= round(sum([float(i.diem) for i in list_lskt])/len(list_lskt),2)
+            list_score['diemTrungVi']= round(statistics.median([float(i.diem) for i in list_lskt]),2)
+            list_score['range']= "-".join([str(min([float(i.diem) for i in list_lskt])),str(max([float(i.diem) for i in list_lskt]))])
+            list_diem_hoten= [[i.diem,i.mahs.tenhs] for i in list_lskt]
+            list_diem_hoten.sort(key=lambda x: x[0],reverse=True)
+            list_score['top5DiemCao']=list_diem_hoten[:5]
+            list_score['top5DiemThap']=(list_diem_hoten[-5:])
+            list_score['top5DiemThap'].reverse()
+            for i in list_lskt:
+                list_score['mahs'].append(i.mahs.mahs)
+                list_score['tenhs'].append(i.mahs.tenhs)
+                list_score['diemhs'].append(i.diem)
+        
         return Response(list_score)
 
 class API_Get_Question_True_False(APIView):
-    def get(self,request):
-        makt='j1uouCrC'
+    def get(self,request,makt):
         baikiemtra= Baikiemtra.objects.select_related(
             'makt__makt','cauhoi_macauhoi__macauhoi'
         ).values(
@@ -604,7 +618,10 @@ class API_Get_Question_True_False(APIView):
                 dict_cauhoi['dapansaitungcau'][i['chitiedapancauhoi__machkt__cauhoi_macauhoi']]+=1
         return Response(dict_cauhoi)
 
-
+class API_Get_Lop_BaiKT(APIView):
+    def get(self,request):
+        baiKT= Baikiemtra.objects.all()
+        return Response(baiKT.values('makt','tenkt','lopkt'))
 
 def logout_user(request):
     logout(request)
