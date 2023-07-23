@@ -262,7 +262,19 @@ class listScoreStudent(View):
             lich_su_kiem_tra= Lichsukiemtra.objects.filter(makt=makt)
         else:
             lich_su_kiem_tra= Lichsukiemtra.objects.filter(makt=makt,mahs=mhs)
-        # print(lich_su_kiem_tra)
+        list_hs_thi=[]
+        solanthi=[]
+        count=0
+        for i in lich_su_kiem_tra:
+            list_hs_thi.append(i.mahs.mahs)
+            if list_hs_thi.count(i.mahs.mahs)>1:
+                count+=1
+                solanthi.append(count)
+            else:
+                count=1
+                solanthi.append(count)
+        print(solanthi)
+        lskt_solanthi= zip(lich_su_kiem_tra,solanthi)
         return render(request,'app/ListScoreStudent.html',locals())
 
 class listStudentQuesion(View):
@@ -567,15 +579,23 @@ class API_Get_Score(APIView):
         list_score['top5DiemCao']=[]
         list_score['top5DiemThap']=[]
         if len(list_lskt)!=0:
-            list_score['diemTB']= round(sum([float(i.diem) for i in list_lskt])/len(list_lskt),2)
-            list_score['diemTrungVi']= round(statistics.median([float(i.diem) for i in list_lskt]),2)
-            list_score['range']= "-".join([str(min([float(i.diem) for i in list_lskt])),str(max([float(i.diem) for i in list_lskt]))])
-            list_diem_hoten= [[i.diem,i.mahs.tenhs] for i in list_lskt]
+            list_lskt_test=[i for i in list_lskt]
+            if len(list_lskt_test)>1:
+                for i in list_lskt_test:
+                    for j in list_lskt_test:
+                        if i.mahs.mahs==j.mahs.mahs:
+                            if float(i.diem)<float(j.diem):
+                                list_lskt_test.remove(i)
+
+            list_score['diemTB']= round(sum([float(i.diem) for i in list_lskt_test])/len(list_lskt_test),2)
+            list_score['diemTrungVi']= round(statistics.median([float(i.diem) for i in list_lskt_test]),2)
+            list_score['range']= "-".join([str(min([float(i.diem) for i in list_lskt_test])),str(max([float(i.diem) for i in list_lskt_test]))])
+            list_diem_hoten= [[i.diem,i.mahs.tenhs] for i in list_lskt_test]
             list_diem_hoten.sort(key=lambda x: x[0],reverse=True)
             list_score['top5DiemCao']=list_diem_hoten[:5]
             list_score['top5DiemThap']=(list_diem_hoten[-5:])
             list_score['top5DiemThap'].reverse()
-            for i in list_lskt:
+            for i in list_lskt_test:
                 list_score['mahs'].append(i.mahs.mahs)
                 list_score['tenhs'].append(i.mahs.tenhs)
                 list_score['diemhs'].append(i.diem)
@@ -606,12 +626,22 @@ class API_Get_Question_True_False(APIView):
         lich_su_kiem_tra= Lichsukiemtra.objects.select_related(
             'mahs__mahs','mals__mals','machkt__machkt','cauhoi_macauhoi__macauhoi'
         ).values(
+            'mals','mahs__mahs','mahs__tenhs','mahs__lophoc','mahs__email','mahs__sdt','diem','thoigianlambai',
             'chitiedapancauhoi__machkt__cauhoi_macauhoi',
             'chitiedapancauhoi__dapantraloi',
             'chitiedapancauhoi__machkt__cauhoi_macauhoi__dapandung',
         ).filter(makt_id=makt)
 
-        for i in lich_su_kiem_tra:
+        list_lskt_test=[i for i in lich_su_kiem_tra]
+        list_lskt_test_2=[]
+        for  i in list_lskt_test:
+            for j in list_lskt_test:
+                if i['mahs__mahs']==j['mahs__mahs'] and i['chitiedapancauhoi__machkt__cauhoi_macauhoi']==j['chitiedapancauhoi__machkt__cauhoi_macauhoi']:
+                    if i['diem'] < j['diem']:
+                        list_lskt_test.remove(i)
+    
+
+        for i in list_lskt_test:
             if i['chitiedapancauhoi__dapantraloi']==i['chitiedapancauhoi__machkt__cauhoi_macauhoi__dapandung']:
                 dict_cauhoi['dapandungtungcau'][i['chitiedapancauhoi__machkt__cauhoi_macauhoi']]+=1
             else:

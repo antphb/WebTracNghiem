@@ -81,7 +81,7 @@ Thống kê
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-3" id="chart">
                 <div class="col-md-6">
                     <div id="myPlot_bar_score" ></div>
                 </div>
@@ -146,7 +146,22 @@ Thống kê
                     const l_mahs= data['mahs']
                     const x_Ten= data['tenhs'];
                     const y_Diem =data['diemhs'].map(parseFloat);
-                    y_Diem.sort((a, b) => a - b);
+                    //sort theo điểm tăng dần và thay đổi cả x_Ten và l_mahs
+                    for (var i = 0; i < y_Diem.length; i++) {
+                        for (var j = 0; j < y_Diem.length; j++) {
+                            if (y_Diem[i] < y_Diem[j]) {
+                                var temp = y_Diem[i];
+                                y_Diem[i] = y_Diem[j];
+                                y_Diem[j] = temp;
+                                var temp2 = x_Ten[i];
+                                x_Ten[i] = x_Ten[j];
+                                x_Ten[j] = temp2;
+                                var temp3 = l_mahs[i];
+                                l_mahs[i] = l_mahs[j];
+                                l_mahs[j] = temp3;
+                            }
+                        }
+                    }
                     const color_Rank= {
                         'Xuất sắc': '#29174D',
                         'Giỏi': 'rgb(25, 93, 172)',	
@@ -157,12 +172,13 @@ Thống kê
                     };
                     const data_visual=[
                         {
-                            x:x_Ten,
+                            x:l_mahs,
                             y:y_Diem,
                             type:"bar",
                             orientation:"v",
                             text: y_Diem.map(String),
                             textposition: 'auto',
+                            hovertext: x_Ten,
                             // hoverinfo: 'none',
                             marker: {
                                 color: y_Diem.map(value => {
@@ -186,7 +202,7 @@ Thống kê
                     const layout = {
                         title:"Điểm thi của học sinh",
                         xaxis:{
-                            title: 'Tên học sinh'
+                            title: 'Mã học sinh'
                         },
                         yaxis:{
                             title: 'Điểm',
@@ -267,6 +283,7 @@ Thống kê
             } catch (error) {
                 $('#Thongke').addClass('d-none')
                 $('#Top5').addClass('d-none')
+                $('#chart').addClass('d-none')
             }
             
         });

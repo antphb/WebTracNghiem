@@ -41,12 +41,12 @@ Danh sách điểm thi
                             </tr>
                         </thead>
                         <tbody>
-                            {% for lskt in lich_su_kiem_tra %}
+                            {% for lskt,slt in lskt_solanthi %}
                                 <tr>
                                     <td>{{forloop.counter}}</td>
                                     <td>{{lskt.mahs.mahs}}</td>
                                     <td>{{lskt.mahs.tenhs}}</td>
-                                    <td>Lần {{forloop.counter}} </td>
+                                    <td>Lần {{slt}} </td>
                                     <td>{{lskt.mahs.lophoc.tenlop}}</td>
                                     <td>{{lskt.diem}}</td>
                                     <td>
